@@ -8,7 +8,18 @@ const productNames = JSON.parse(
 );
 
 //Middlewares
-app.use(express.json())
+app.use(express.json());
+
+//Routes
+app.get('/api/v1/names/:id',(req,res)=>{
+    const {id} = req.params;
+    const product = productNames.find(product => product.id == id);
+    if(!product){
+       return res.status(404).send({"status": "failed", "message": "Not found!"});
+    }
+     return res.status(200)
+    .send({"status": "success","message": "Product name fetched successfully", "data" : {"id": id, "name": product }});
+})
 
 // GET endpoint for sending the products to client by id
 //Endpoint - /api/v1/names/:id
